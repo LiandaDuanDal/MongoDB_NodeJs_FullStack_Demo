@@ -18,32 +18,33 @@ const User = require('./model/user.js');
 const app = http.createServer();
 
 // 为服务器添加请求事件
-app.on('request',async(req,res)=>{
-    // 请求方式
-    const method  = req.method;
-    // 请求的路径地址
-    const {pathname,query} = url.parse(req.url, true);
-    // 判断请求方式 get 还是 post
-    if (method == 'GET'){
-        console.log('Received GET request!!');
-        // 呈现User List页面
-        // 具体思路是把html页面的代码作为以一个变量返回
-        // 因为要呈现的实际上是数据库的内容而不是静态的内容，所以不能用静态内容呈现的方式进行返回
+app.on('request', async (req, res) => {
+  // 请求方式
+  const method = req.method;
+  // 请求的路径地址
+  const { pathname, query } = url.parse(req.url, true);
+  console.log("req.url=======>", req.url);
+  // 判断请求方式 get 还是 post
+  if (method == 'GET') {
+    console.log('Received GET request!!');
+    // 呈现User List页面
+    // 具体思路是把html页面的代码作为以一个变量返回
+    // 因为要呈现的实际上是数据库的内容而不是静态的内容，所以不能用静态内容呈现的方式进行返回
 
-        // 呈现User List页面
-        if(pathname == '/list'){
-            console.log("Rendering list page")
-            // 使用异步函数获取查询结果
-            // 这里的await是指的是拿到了所有的user对象集合后才做下面的事情
-            let users = await User.find();
+    // 呈现User List页面
+    if (pathname == '/list') {
+      console.log("Rendering list page")
+      // 使用异步函数获取查询结果
+      // 这里的await是指的是拿到了所有的user对象集合后才做下面的事情
+      let users = await User.find();
 
-            // 这个地方不可以使用then catchde
-            // .then(res=>console.log(res)).catch(err=>conslog('错误'));
-            // console.log(users_info);
-            // 拼接数据
+      // 这个地方不可以使用then catchde
+      // .then(res=>console.log(res)).catch(err=>conslog('错误'));
+      // console.log(users_info);
+      // 拼接数据
 
-            // DELETEremove的基本思路是给DELETE按钮添加路由，并传入id信息
-            let list = `<!DOCTYPE html>
+      // DELETEremove的基本思路是给DELETE按钮添加路由，并传入id信息
+      let list = `<!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
@@ -63,16 +64,16 @@ app.on('request',async(req,res)=>{
                             <td>email</td>
                             <td>Operate</td>
                         </tr>`;
-                users.forEach(item=>{
-                    list += `<tr>
+      users.forEach(item => {
+        list += `<tr>
                     <td>${item.name}</td>
                     <td>${item.age}</td>
                     <td>`;
 
-                    item.hobbies.forEach(item=>{
-                        list += `<span>${item}</span>`;
-                    });
-                    list +=`
+        item.hobbies.forEach(item => {
+          list += `<span>${item}</span>`;
+        });
+        list += `
                     </td>
                     <td>${item.email}</td>
                     <td>
@@ -80,18 +81,18 @@ app.on('request',async(req,res)=>{
                         <a href="/modify?id=${item._id}" class="btn btn-success btn-xs">MODIFY</a>
                     </td>
                 </tr>`;
-                });
-                
-                list += ` 
+      });
+
+      list += ` 
                     </table>
                 </div>
             </body>
             </html>`;
-            res.end(list);
-            
-        }else if(pathname == '/add'){
-          console.log("进行add 页面渲染");
-            let add = `
+      res.end(list);
+
+    } else if (pathname == '/add') {
+      console.log("进行add 页面渲染");
+      let add = `
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -151,16 +152,16 @@ app.on('request',async(req,res)=>{
             </body>
             </html>
             `;
-            // 按住option shift鼠标左键划过最右边可以同时编辑多行代码
-            res.end(add);
-        }else if(pathname == '/modify'){
-          // let user = await User.find({_id:query.id}); 这个返回的是一个对象数组
-          // find one返回的是一个对象
-          let user = await User.findOne({_id:query.id});
-          console.log("当前查询到的用户：",user);
-          // 更改Hobby值
-          let hobbies = ["足球","篮球","橄榄球","敲代码","抽烟","喝酒","烫头","打豆豆"];
-          let modify = `
+      // 按住option shift鼠标左键划过最右边可以同时编辑多行代码
+      res.end(add);
+    } else if (pathname == '/modify') {
+      // let user = await User.find({_id:query.id}); 这个返回的是一个对象数组
+      // find one返回的是一个对象
+      let user = await User.findOne({ _id: query.id });
+      console.log("当前查询到的用户：", user);
+      // 更改Hobby值
+      let hobbies = ["足球", "篮球", "橄榄球", "敲代码", "抽烟", "喝酒", "烫头", "打豆豆"];
+      let modify = `
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -193,20 +194,20 @@ app.on('request',async(req,res)=>{
                     <div>
                       `;
 
-                hobbies.forEach(hobby=>{
-                  if (user.hobbies.includes(hobby)){
-                    modify += `
+      hobbies.forEach(hobby => {
+        if (user.hobbies.includes(hobby)) {
+          modify += `
                     <label class="checkbox-inline">
                         <input type="checkbox" value="${hobby}" name="hobbies" checked> ${hobby}
                       </label>`;
-                  }else{
-                    modify +=`
+        } else {
+          modify += `
                     <label class="checkbox-inline">
                         <input type="checkbox" value="${hobby}" name="hobbies"> ${hobby}
                       </label>`;
-                  }
-                });
-              modify += `</div>
+        }
+      });
+      modify += `</div>
                   </div>
                   <button type="submit" class="btn btn-primary">SubmitMODIFY</button>
                 </form>
@@ -214,90 +215,90 @@ app.on('request',async(req,res)=>{
             </body>
             </html>
             `;
-            res.end(modify);
-        }else if(pathname=='/remove'){
-          // 接收到客户端接收到的id （存储到query中）
-          // res.end(query.id); 检测是否能收到id参数
-          await User.findOneAndDelete({_id:query.id});
-          // alert("已完成DELETE，即将跳转到list页面");
-          res.writeHead(301,{
-            Location: '/list'
-          });
+      res.end(modify);
+    } else if (pathname == '/remove') {
+      // 接收到客户端接收到的id （存储到query中）
+      // res.end(query.id); 检测是否能收到id参数
+      await User.findOneAndDelete({ _id: query.id });
+      // alert("已完成DELETE，即将跳转到list页面");
+      res.writeHead(301, {
+        Location: '/list'
+      });
 
-          res.end()
-        }
-
-// 1 MODIFY页面路由 呈现页面
-//  1.1 点击MODIFY按钮的时候传递用户的id
-//  1.2 通过用户id查询用户信息
-    }else if (method=='POST'){
-        console.log('收到POST请求');
-        if (pathname == '/add'){
-          // 添加功能
-          console.log("post----add");
-          // 设置变量接收post参数
-          let formData = '';
-          // 
-          // 对于收到的每一个参数把他连接到记录器formdata里面
-          // post的参数是一串一串到达的
-          req.on('data',parameter=>{
-            formData += parameter;
-            // console.log("form data TEMP===>",parameter,'\n');
-          })
-          // 查看最终的formdata
-          // console.log(formData);
-
-          // 完成post数据接收后
-          req.on('end',async ()=>{
-            let user = querystring.parse(formData)
-            // 同步 注意⚠️：await只能放在async的函数里面。
-            // await 会阻塞代码的运行
-            await User.create(user);
-            // 使用301进行重定向
-            // location代表跳转地址
-            await console.log(user);
-            await console.log("执行重定向");
-            res.writeHead(301,{
-              Location:'/list'
-            });
-            res.end();
-          })
-
-        }else if(pathname == '/modify'){
-          // 添加功能
-          console.log("post----modify");
-          // 设置变量接收post参数
-          let formData = '';
-          // 
-          // 对于收到的每一个参数把他连接到记录器formdata里面
-          // post的参数是一串一串到达的
-          req.on('data',parameter=>{
-            formData += parameter;
-            // console.log("form data TEMP===>",parameter,'\n');
-          })
-          // 查看最终的formdata
-          // console.log(formData);
-
-          // 完成post数据接收后
-          req.on('end',async ()=>{
-            let user = querystring.parse(formData);
-            // 同步 注意⚠️：await只能放在async的函数里面。
-            // await 会阻塞代码的运行
-            await User.updateOne({_id:query.id},user);
-            // 使用301进行重定向
-            // location代表跳转地址
-            await console.log("更新内容====>",user);
-            await console.log("执行重定向");
-            res.writeHead(301,{
-              Location:'/list'
-            });
-            res.end();
-          })
-}
-        // 这个地方加一个end就真的结束了
-        // res.end('OJBK');
+      res.end()
     }
-    // res.end();
+
+    // 1 MODIFY页面路由 呈现页面
+    //  1.1 点击MODIFY按钮的时候传递用户的id
+    //  1.2 通过用户id查询用户信息
+  } else if (method == 'POST') {
+    console.log('收到POST请求');
+    if (pathname == '/add') {
+      // 添加功能
+      console.log("post----add");
+      // 设置变量接收post参数
+      let formData = '';
+      // 
+      // 对于收到的每一个参数把他连接到记录器formdata里面
+      // post的参数是一串一串到达的
+      req.on('data', parameter => {
+        formData += parameter;
+        // console.log("form data TEMP===>",parameter,'\n');
+      })
+      // 查看最终的formdata
+      // console.log(formData);
+
+      // 完成post数据接收后
+      req.on('end', async () => {
+        let user = querystring.parse(formData)
+        // 同步 注意⚠️：await只能放在async的函数里面。
+        // await 会阻塞代码的运行
+        await User.create(user);
+        // 使用301进行重定向
+        // location代表跳转地址
+        await console.log(user);
+        await console.log("执行重定向");
+        res.writeHead(301, {
+          Location: '/list'
+        });
+        res.end();
+      })
+
+    } else if (pathname == '/modify') {
+      // 添加功能
+      console.log("post----modify");
+      // 设置变量接收post参数
+      let formData = '';
+      // 
+      // 对于收到的每一个参数把他连接到记录器formdata里面
+      // post的参数是一串一串到达的
+      req.on('data', parameter => {
+        formData += parameter;
+        // console.log("form data TEMP===>",parameter,'\n');
+      })
+      // 查看最终的formdata
+      // console.log(formData);
+
+      // 完成post数据接收后
+      req.on('end', async () => {
+        let user = querystring.parse(formData);
+        // 同步 注意⚠️：await只能放在async的函数里面。
+        // await 会阻塞代码的运行
+        await User.updateOne({ _id: query.id }, user);
+        // 使用301进行重定向
+        // location代表跳转地址
+        await console.log("更新内容====>", user);
+        await console.log("执行重定向");
+        res.writeHead(301, {
+          Location: '/list'
+        });
+        res.end();
+      })
+    }
+    // 这个地方加一个end就真的结束了
+    // res.end('OJBK');
+  }
+  // res.end();
 });
 
 // 监听端口

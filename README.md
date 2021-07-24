@@ -1,7 +1,7 @@
 # Description
 This is a full-stack demo project based on MongoDB and Node.js.
 # file structure
-```
+```bash
 .
 ├── README.md
 ├── tree.md
@@ -14,7 +14,7 @@ This is a full-stack demo project based on MongoDB and Node.js.
 
 # Basic Configuration
 
-```
+```bash
 install npm
 
 // cd database
@@ -25,21 +25,25 @@ install npm
 
 
 # Front end
-```
+```bash
 └── user
     ├── app.js
 ```
 
 # Back end
 
-    └── module
-        ├── index.js
-        └── user.jsx
+```bash
+└── module
+    ├── index.js
+    └── user.jsx
+```
 
 # Start the server:
 
->```
->nodemon app.js
+>```bash
+>in the directory of app.js:
+>>nodemon app.js
+>
 >open the following link in the browser
 >http://localhost:3000/list
 >```
@@ -57,7 +61,7 @@ https://blog.csdn.net/qq673318522/article/details/53713903
 * tree> tree.md Output the project structure to the file tree.md.
 
 # github command c&p
-```
+```bash
 git add .
 git commit -m "update"
 git push origin master

@@ -1,6 +1,7 @@
 # Introduction
 This is a full-stack demo project based on MongoDB and Node.js.
 # file structure
+```
 .
 ├── README.md
 ├── tree.md
@@ -10,17 +11,31 @@ This is a full-stack demo project based on MongoDB and Node.js.
         ├── index.js
         └── user.jsx
 
+# 
+```
+
 # Basic Configuration
+
+```
 install npm
 
 // cd database
 // npm install mongoose
 // node -v
+```
+
+
 
 # Front end
+```
 └── user
     ├── app.js
+
+# 
+```
+
 # Back end
+
     └── module
         ├── index.js
         └── user.jsx
@@ -41,6 +56,9 @@ https://blog.csdn.net/qq673318522/article/details/53713903
 * tree > tree.md 将项目结构输出到tree.md这个文件。
 
 # github command c&p
+```
 git add .
 git commit -m "update"
 git push origin master
+```
+

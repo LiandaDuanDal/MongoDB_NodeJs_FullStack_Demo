@@ -1,4 +1,4 @@
-// // 首先穿件网站服务器，使用http模块
+// First wear a web server, use http module
 const http = require('http');
 // // --当前目录找不到这个模块会到上一个目录去找
 // const mongoose = require('mongoose')
@@ -6,33 +6,6 @@ const http = require('http');
 const url = require('url');
 // // 导入将String变为json quering的工具包querystring
 const querystring = require('querystring');
-// // 数据库连接---本机数据库
-// // 27017是mongoDB的默认端口
-// // 根据提示要求加上两个选项{ useUnifiedTopology: true,useNewUrlParser: true  }
-// // 这两个选线和后续的库版本更新有关
-// mongoose.connect('mongodb://localhost/playground', { useUnifiedTopology: true,useNewUrlParser: true  } )
-// .then(() => console.log("successfully connected 数据库连接成功"))
-// .catch(e => console.log("failed to connect 数据库连接失败",e));
-// // 创建用户集合规则
-// const userSchema = new mongoose.Schema({
-//     name:{
-//         type:String,
-//         required:true,
-//         minLength:2,
-//         maxLength:20
-//     },
-//     age:{
-//         type:Number,
-//         min:18,
-//         max:800
-//     },
-//     password:String,
-//     email:String,
-//     hobbies:[String]
-// })
-
-// const User = mongoose.model('User',userSchema);
-
 
 // 导入两个模块
 // 数据库连接
@@ -52,14 +25,14 @@ app.on('request',async(req,res)=>{
     const {pathname,query} = url.parse(req.url, true);
     // 判断请求方式 get 还是 post
     if (method == 'GET'){
-        console.log('收到GET请求');
-        // 呈现用户列表页面
+        console.log('Received GET request!!');
+        // 呈现User List页面
         // 具体思路是把html页面的代码作为以一个变量返回
         // 因为要呈现的实际上是数据库的内容而不是静态的内容，所以不能用静态内容呈现的方式进行返回
 
-        // 呈现用户列表页面
+        // 呈现User List页面
         if(pathname == '/list'){
-            console.log("进行list页面渲染")
+            console.log("Rendering list page")
             // 使用异步函数获取查询结果
             // 这里的await是指的是拿到了所有的user对象集合后才做下面的事情
             let users = await User.find();
@@ -69,12 +42,12 @@ app.on('request',async(req,res)=>{
             // console.log(users_info);
             // 拼接数据
 
-            // 删除remove的基本思路是给删除按钮添加路由，并传入id信息
+            // DELETEremove的基本思路是给DELETE按钮添加路由，并传入id信息
             let list = `<!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
-                <title>用户列表</title>
+                <title>User List</title>
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
             </head>
             <body>
@@ -84,11 +57,11 @@ app.on('request',async(req,res)=>{
                     </h6>
                     <table class="table table-striped table-bordered">
                         <tr>
-                            <td>用户名</td>
-                            <td>年龄</td>
-                            <td>爱好</td>
-                            <td>邮箱</td>
-                            <td>操作</td>
+                            <td>User Name</td>
+                            <td>Age</td>
+                            <td>Hobbies</td>
+                            <td>email</td>
+                            <td>Operate</td>
                         </tr>`;
                 users.forEach(item=>{
                     list += `<tr>
@@ -103,8 +76,8 @@ app.on('request',async(req,res)=>{
                     </td>
                     <td>${item.email}</td>
                     <td>
-                        <a href="/remove?id=${item._id}" class="btn btn-danger btn-xs">删除</a>
-                        <a href="/modify?id=${item._id}" class="btn btn-success btn-xs">修改</a>
+                        <a href="/remove?id=${item._id}" class="btn btn-danger btn-xs">Delete</a>
+                        <a href="/modify?id=${item._id}" class="btn btn-success btn-xs">MODIFY</a>
                     </td>
                 </tr>`;
                 });
@@ -123,7 +96,7 @@ app.on('request',async(req,res)=>{
             <html lang="en">
             <head>
               <meta charset="UTF-8">
-              <title>用户列表</title>
+              <title>User List</title>
               <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
             </head>
             <body>
@@ -131,23 +104,23 @@ app.on('request',async(req,res)=>{
                 <h3>添加用户</h3>
                 <form method="post" action="/add">
                   <div class="form-group">
-                    <label>用户名</label>
-                    <input name="name" type="text" class="form-control" placeholder="请填写用户名">
+                    <label>User Name</label>
+                    <input name="name" type="text" class="form-control" placeholder="请填写User Name">
                   </div>
                   <div class="form-group">
-                    <label>密码</label>
-                    <input name="password" type="password" class="form-control" placeholder="请输入密码">
+                    <label>Password</label>
+                    <input name="password" type="password" class="form-control" placeholder="请输入Password">
                   </div>
                   <div class="form-group">
-                    <label>年龄</label>
-                    <input name="age" type="text" class="form-control" placeholder="请填写邮箱">
+                    <label>Age</label>
+                    <input name="age" type="text" class="form-control" placeholder="请填写email">
                   </div>
                   <div class="form-group">
-                    <label>邮箱</label>
-                    <input name="email" type="email" class="form-control" placeholder="请填写邮箱">
+                    <label>email</label>
+                    <input name="email" type="email" class="form-control" placeholder="请填写email">
                   </div>
                   <div class="form-group">
-                    <label>请选择爱好</label>
+                    <label>Please Select Hobbies</label>
                     <div>
                       <label class="checkbox-inline">
                         <input type="checkbox" value="足球" name="hobbies"> 足球
@@ -185,38 +158,38 @@ app.on('request',async(req,res)=>{
           // find one返回的是一个对象
           let user = await User.findOne({_id:query.id});
           console.log("当前查询到的用户：",user);
-          // 更改爱好值
+          // 更改Hobby值
           let hobbies = ["足球","篮球","橄榄球","敲代码","抽烟","喝酒","烫头","打豆豆"];
           let modify = `
             <!DOCTYPE html>
             <html lang="en">
             <head>
               <meta charset="UTF-8">
-              <title>用户列表</title>
+              <title>User List</title>
               <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
             </head>
             <body>
               <div class="container">
-                <h3>修改用户</h3>
+                <h3>MODIFY用户</h3>
                 <form method="post" action="/modify?id=${user._id}">
                   <div class="form-group">
-                    <label>用户名</label>
-                    <input value="${user.name}" name="name" type="text" class="form-control" placeholder="请填写用户名">
+                    <label>User Name</label>
+                    <input value="${user.name}" name="name" type="text" class="form-control" placeholder="请填写User Name">
                   </div>
                   <div class="form-group">
-                    <label>密码</label>
-                    <input value="${user.password}" name="password" type="password" class="form-control" placeholder="请输入密码">
+                    <label>Password</label>
+                    <input value="${user.password}" name="password" type="password" class="form-control" placeholder="请输入Password">
                   </div>
                   <div class="form-group">
-                    <label>年龄</label>
-                    <input name="age" value="${user.age}" type="text" class="form-control" placeholder="请填写邮箱">
+                    <label>Age</label>
+                    <input name="age" value="${user.age}" type="text" class="form-control" placeholder="请填写email">
                   </div>
                   <div class="form-group">
-                    <label>邮箱</label>
-                    <input name="email" value="${user.email}"  type="email" class="form-control" placeholder="请填写邮箱">
+                    <label>email</label>
+                    <input name="email" value="${user.email}"  type="email" class="form-control" placeholder="请填写email">
                   </div>
                   <div class="form-group">
-                    <label>请选择爱好</label>
+                    <label>Please Select Hobbies</label>
                     <div>
                       `;
 
@@ -235,7 +208,7 @@ app.on('request',async(req,res)=>{
                 });
               modify += `</div>
                   </div>
-                  <button type="submit" class="btn btn-primary">提交修改</button>
+                  <button type="submit" class="btn btn-primary">SubmitMODIFY</button>
                 </form>
               </div>
             </body>
@@ -246,7 +219,7 @@ app.on('request',async(req,res)=>{
           // 接收到客户端接收到的id （存储到query中）
           // res.end(query.id); 检测是否能收到id参数
           await User.findOneAndDelete({_id:query.id});
-          // alert("已完成删除，即将跳转到list页面");
+          // alert("已完成DELETE，即将跳转到list页面");
           res.writeHead(301,{
             Location: '/list'
           });
@@ -254,8 +227,8 @@ app.on('request',async(req,res)=>{
           res.end()
         }
 
-// 1 修改页面路由 呈现页面
-//  1.1 点击修改按钮的时候传递用户的id
+// 1 MODIFY页面路由 呈现页面
+//  1.1 点击MODIFY按钮的时候传递用户的id
 //  1.2 通过用户id查询用户信息
     }else if (method=='POST'){
         console.log('收到POST请求');

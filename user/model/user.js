@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// 创建用户集合规则
+// Create user collection rules
 const userSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
 	hobbies: [ String ]
 });
 
-// 创建集合 返回集合构造函数
+// Create a collection and return to the collection constructor
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

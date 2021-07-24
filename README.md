@@ -1,5 +1,6 @@
 # Description
-This is a full-stack demo project based on MongoDB and Node.js.
+
+This is a full-stack demo project based on MongoDB and Node.js. The main function of this project is to realize a user record. The administrator can add, delete, and modify user information in the user list.
 # file structure
 ```bash
 .

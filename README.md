@@ -37,9 +37,14 @@ install npm
         └── user.jsx
 
 # Start the server:
+
+>```
 >nodemon app.js
-open the following link in the browser
-http://localhost:3000/list
+>open the following link in the browser
+>http://localhost:3000/list
+>```
+>
+>
 
 # About tree
 brew install tree

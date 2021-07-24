@@ -10,8 +10,6 @@ This is a full-stack demo project based on MongoDB and Node.js.
     └── module
         ├── index.js
         └── user.jsx
-
-# 
 ```
 
 # Basic Configuration
@@ -30,8 +28,6 @@ install npm
 ```
 └── user
     ├── app.js
-
-# 
 ```
 
 # Back end

@@ -46,10 +46,10 @@ brew install tree
 
 https://blog.csdn.net/qq673318522/article/details/53713903
 
-* tree -d 只显示文件夹；
-* tree -L n 显示项目的层级。n表示层级数。比如想要显示项目三层结构，可以用tree -l 3；
-* tree -I pattern 用于过滤不想要显示的文件或者文件夹。比如你想要过滤项目中的node_modules文件夹，可以使用tree -I "node_modules"；
-* tree > tree.md 将项目结构输出到tree.md这个文件。
+* tree -d only displays folders;
+* tree -L n displays the level of the project. n represents the number of levels. For example, if you want to display the three-tier structure of the project, you can use tree -l 3;
+* tree -I pattern is used to filter files or folders that you don't want to display. For example, if you want to filter the node_modules folder in the project, you can use tree -I "node_modules";
+* tree> tree.md Output the project structure to the file tree.md.
 
 # github command c&p
 ```
